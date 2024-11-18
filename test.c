@@ -6,7 +6,7 @@
 /*   By: kmorin <kmorin@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:05:40 by kmorin            #+#    #+#             */
-/*   Updated: 2024/11/18 15:29:51 by kmorin           ###   ########.fr       */
+/*   Updated: 2024/11/18 17:02:37 by kmorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #define CYAN "\e[0;36m"
 
 size_t	ft_strlen(const char *str);
-// int		ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 // char	*ft_strcpy(char *dest, const char *src);
 // ssize_t	ft_write(int fd, const void *buf, size_t count);
 // ssize_t	ft_read(int fd, void *buf, size_t count);
@@ -34,6 +34,7 @@ void strlen_test() {
 	const char	*long_string = "This is a long long long long long long string. I wonder it's length ?";
 	const char	*small_string = "Hello World !";
 	const char	*empty_string = "";
+	const char	*other_string = "abcde\n\0\0";
 	// char	*correction_string = "";
 	size_t	res_offical, res_mine;
 
@@ -53,6 +54,12 @@ void strlen_test() {
 	res_offical = strlen(empty_string);
 	printf("Result from strlen:    " GREEN "%zu\n" RESET, res_offical);
 	res_mine = ft_strlen(empty_string);
+	printf("Result from ft_strlen: " YELLOW "%zu\n\n" RESET, res_mine);
+
+	printf(BLUE "Test string in use:\n\t" CYAN"%s\n" RESET, other_string);
+	res_offical = strlen(other_string);
+	printf("Result from strlen:    " GREEN "%zu\n" RESET, res_offical);
+	res_mine = ft_strlen(other_string);
 	printf("Result from ft_strlen: " YELLOW "%zu\n" RESET, res_mine);
 
 
@@ -65,6 +72,80 @@ void strlen_test() {
 
 void strcmp_test() {
 
+	char	*s1, *s2;
+	int		res_official, res_mine;
+
+	s1 = "Hello World";
+	s2 = "Hello World";
+	printf(BLUE "Compare '%s' with '%s'\n" RESET, s1, s2);
+	res_official = strcmp(s1, s2);
+	printf("Result from strcmp:    " GREEN "%d\n" RESET, res_official);
+	res_mine = ft_strcmp(s1, s2);
+	printf("Result from ft_strcmp: " YELLOW "%d\n\n" RESET, res_mine);
+
+	s1 = "Hello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello World";
+	s2 = "Hello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello World";
+	printf(BLUE "Compare '%s' with '%s'\n" RESET, s1, s2);
+	res_official = strcmp(s1, s2);
+	printf("Result from strcmp:    " GREEN "%d\n" RESET, res_official);
+	res_mine = ft_strcmp(s1, s2);
+	printf("Result from ft_strcmp: " YELLOW "%d\n\n" RESET, res_mine);
+
+	s1 = "Hello Worldd";
+	s2 = "Hello World";
+	printf(BLUE "Compare '%s' with '%s'\n" RESET, s1, s2);
+	res_official = strcmp(s1, s2);
+	printf("Result from strcmp:    " GREEN "%d\n" RESET, res_official);
+	res_mine = ft_strcmp(s1, s2);
+	printf("Result from ft_strcmp: " YELLOW "%d\n\n" RESET, res_mine);
+
+	s1 = "Hello World";
+	s2 = "Hello Worldd";
+	printf(BLUE "Compare '%s' with '%s'\n" RESET, s1, s2);
+	res_official = strcmp(s1, s2);
+	printf("Result from strcmp:    " GREEN "%d\n" RESET, res_official);
+	res_mine = ft_strcmp(s1, s2);
+	printf("Result from ft_strcmp: " YELLOW "%d\n\n" RESET, res_mine);
+
+	s1 = "Hello World";
+	s2 = "";
+	printf(BLUE "Compare '%s' with '%s'\n" RESET, s1, s2);
+	res_official = strcmp(s1, s2);
+	printf("Result from strcmp:    " GREEN "%d\n" RESET, res_official);
+	res_mine = ft_strcmp(s1, s2);
+	printf("Result from ft_strcmp: " YELLOW "%d\n\n" RESET, res_mine);
+
+	s1 = "";
+	s2 = "Hello World";
+	printf(BLUE "Compare '%s' with '%s'\n" RESET, s1, s2);
+	res_official = strcmp(s1, s2);
+	printf("Result from strcmp:    " GREEN "%d\n" RESET, res_official);
+	res_mine = ft_strcmp(s1, s2);
+	printf("Result from ft_strcmp: " YELLOW "%d\n\n" RESET, res_mine);
+
+	s1 = "";
+	s2 = "";
+	printf(BLUE "Compare '%s' with '%s'\n" RESET, s1, s2);
+	res_official = strcmp(s1, s2);
+	printf("Result from strcmp:    " GREEN "%d\n" RESET, res_official);
+	res_mine = ft_strcmp(s1, s2);
+	printf("Result from ft_strcmp: " YELLOW "%d\n\n" RESET, res_mine);
+
+	s1 = "A";
+	s2 = "a";
+	printf(BLUE "Compare '%s' with '%s'\n" RESET, s1, s2);
+	res_official = strcmp(s1, s2);
+	printf("Result from strcmp:    " GREEN "%d\n" RESET, res_official);
+	res_mine = ft_strcmp(s1, s2);
+	printf("Result from ft_strcmp: " YELLOW "%d\n\n" RESET, res_mine);
+
+	s1 = "a";
+	s2 = "A";
+	printf(BLUE "Compare '%s' with '%s'\n" RESET, s1, s2);
+	res_official = strcmp(s1, s2);
+	printf("Result from strcmp:    " GREEN "%d\n" RESET, res_official);
+	res_mine = ft_strcmp(s1, s2);
+	printf("Result from ft_strcmp: " YELLOW "%d\n\n" RESET, res_mine);
 }
 
 void strcpy_test() {
@@ -85,7 +166,31 @@ void strdup_test() {
 
 int main(void) {
 
+	printf(MAGENTA "===============STRLEN===============\n" RESET);
+
 	strlen_test();
+
+	printf(MAGENTA "\n===============STRCMP===============\n" RESET);
+
+	strcmp_test();
+
+	printf(MAGENTA "\n===============STRCPY===============\n" RESET);
+
+	// strcpy_test();
+
+	// printf(MAGENTA "\n===============WRITE================\n" RESET);
+
+	// write_test();
+
+	// printf(MAGENTA "\n================READ================\n" RESET);
+
+	// read_test();
+
+	// printf(MAGENTA "\n===============STRDUP===============\n" RESET);
+
+	// strdup_test();
+
+	// printf(MAGENTA "\n===============THE END==============\n" RESET);
 
 	return 0;
 }

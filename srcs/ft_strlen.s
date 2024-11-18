@@ -1,6 +1,8 @@
 section .text
 global ft_strlen
 
+; size_t strlen(const char *s);
+; s is stored in rdi
 ft_strlen:
     xor rax, rax  ; Initialize counter to 0
 
