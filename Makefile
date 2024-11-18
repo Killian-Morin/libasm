@@ -1,37 +1,40 @@
 NAME = libasm.a
 
 NASM = nasm
-NASM_FLAGS =
+NASM_FLAGS = -f elf64
 
 SRC_PATH = ./srcs/
 SRC_FILES = ft_strlen.s \
-			ft_strcpy.s \
-			ft_strcmp.s \
-			ft_strdup.s \
-			ft_write.s \
-			ft_read.s \
+			# ft_strcpy.s \
+			# ft_strcmp.s \
+			# ft_strdup.s \
+			# ft_write.s \
+			# ft_read.s \
+
+SRC = ${addprefix ${SRC_PATH}, ${SRC_FILES}}
 
 # Source and object files
 OBJ_PATH = ./objs/
-OBJ_FILES = ${patsubst ${SRC_PATH}/%.s, ${OBJ_PATH}/%.o, ${SRC_FILES}}
+OBJ_FILES = ${SRC_FILES:.s=.o}
+OBJ = ${addprefix ${OBJ_PATH}, ${OBJ_FILES}}
 
-all: ${NAME}
-
-# Create the library from object files
-${NAME}: ${OBJ_FILES}
-	@ar rc ${NAME}
-
-# Compile assembly files to object files
-${OBJ_PATH}/%.o: ${SRC_PATH}/%.s | ${OBJ_PATH}
-	${NASM} ${NASM_FLAGS} -o $@ $<
+all: ${OBJ} ${NAME}
 
 # Ensure ./objs/ exists
-${OBJ_PATH}:-o
+${OBJ_PATH}:
 	mkdir -p ${OBJ_PATH}
+
+# Compile assembly files to object files
+${OBJ_PATH}%.o: ${SRC_PATH}%.s | ${OBJ_PATH}
+	${NASM} ${NASM_FLAGS} -o $@ $<
+
+# Create the library from object files
+${NAME}:
+	@ar rc ${NAME} ${OBJ}
 
 # Compile test.c and link it with the library
 test: all
-	@gcc -Wall -Werror -Wextra test.c ${NAME}
+	@gcc -Wall -Werror -Wextra -o test test.c -L. -lasm
 
 # Clean ./objs that holds object files
 clean:
@@ -40,8 +43,8 @@ clean:
 # Remove the library and the file from test.c
 fclean: clean
 	@rm -f ${NAME}
-	@rm -f test.o
-	@rm -f ./a.out
+	# @rm -f test.o
+	@rm -f ./test
 
 # Rebuild everything
 re: fclean all
