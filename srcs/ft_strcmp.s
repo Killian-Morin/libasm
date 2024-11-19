@@ -4,7 +4,7 @@ global ft_strcmp
 ; int strcmp(const char *s1, const char *s2);
 ; s1 is in rdi, s2 is in rsi
 ft_strcmp:
-    xor rcx, rcx
+    xor ecx, ecx ; Initialize counter to 0
 
 cmp_loop:
     mov al, [rdi + rcx] ; Load byte from s1

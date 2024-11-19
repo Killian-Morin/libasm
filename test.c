@@ -6,7 +6,7 @@
 /*   By: kmorin <kmorin@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:05:40 by kmorin            #+#    #+#             */
-/*   Updated: 2024/11/18 17:02:37 by kmorin           ###   ########.fr       */
+/*   Updated: 2024/11/19 12:13:22 by kmorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 size_t	ft_strlen(const char *str);
 int		ft_strcmp(const char *s1, const char *s2);
-// char	*ft_strcpy(char *dest, const char *src);
+char	*ft_strcpy(char *dest, const char *src);
 // ssize_t	ft_write(int fd, const void *buf, size_t count);
 // ssize_t	ft_read(int fd, void *buf, size_t count);
 // char	*ft_strdup(const char *s);
@@ -62,7 +62,7 @@ void strlen_test() {
 	res_mine = ft_strlen(other_string);
 	printf("Result from ft_strlen: " YELLOW "%zu\n" RESET, res_mine);
 
-
+	// TEST with the correction_string given
 	// printf(BLUE "Test string in use:\n%s" RESET, correction_string);
 	// res_offical = strlen(correction_string);
 	// printf("Result from strlen:    " GREEN "%zu\n" RESET, res_offical);
@@ -150,6 +150,47 @@ void strcmp_test() {
 
 void strcpy_test() {
 
+	char	*src;
+	char	dest[20];
+	char	*ret_offical, *ret_mine;
+
+	src = "Hello World";
+	printf(BLUE "Copy '%s' into dest\n" RESET, src);
+	ret_offical = strcpy(dest, src);
+	printf("Result from strcpy:    " GREEN "%s\n" RESET, ret_offical);
+	ret_mine = ft_strcpy(dest, src);
+	printf("Result from ft_strcpy: " YELLOW "%s\n\n" RESET, ret_mine);
+
+	src = "";
+	printf(BLUE "Copy '%s' into dest\n" RESET, src);
+	ret_offical = strcpy(dest, src);
+	printf("Result from strcpy:    " GREEN "%s\n" RESET, ret_offical);
+	ret_mine = ft_strcpy(dest, src);
+	printf("Result from ft_strcpy: " YELLOW "%s\n\n" RESET, ret_mine);
+
+	src = "This is a long long long long long long string. I wonder if I can copy it ?";
+	printf(BLUE "Copy '%s' into dest\n" RESET, src);
+	ret_offical = strcpy(dest, src);
+	printf("Result from strcpy:    " GREEN "%s\n" RESET, ret_offical);
+	ret_mine = ft_strcpy(dest, src);
+	printf("Result from ft_strcpy: " YELLOW "%s\n\n" RESET, ret_mine);
+
+	char	dest_long[100];
+	src = "This is a long long long long long long string. I wonder if I can copy it ?";
+	printf(BLUE "Copy '%s' into dest_long\n" RESET, src);
+	ret_offical = strcpy(dest_long, src);
+	printf("Result from strcpy:    " GREEN "%s\n" RESET, ret_offical);
+	ret_mine = ft_strcpy(dest_long, src);
+	printf("Result from ft_strcpy: " YELLOW "%s\n\n" RESET, ret_mine);
+
+	// TEST that segfault since dest already has content
+	// src = "Hello World";
+	// char	*dest_init = "";
+	// printf(BLUE "Copy '%s' into dest\n" RESET, src);
+	// ret_offical = strcpy(dest_init, src);
+	// printf("Result from strcpy:    " GREEN "%s\n" RESET, ret_offical);
+	// ret_mine = ft_strcpy(dest_init, src);
+	// printf("Result from ft_strcpy: " YELLOW "%s\n\n" RESET, ret_mine);
 }
 
 void write_test() {
@@ -176,7 +217,7 @@ int main(void) {
 
 	printf(MAGENTA "\n===============STRCPY===============\n" RESET);
 
-	// strcpy_test();
+	strcpy_test();
 
 	// printf(MAGENTA "\n===============WRITE================\n" RESET);
 

@@ -6,7 +6,7 @@ NASM_FLAGS = -f elf64
 SRC_PATH = ./srcs/
 SRC_FILES = ft_strlen.s \
 			ft_strcmp.s \
-			# ft_strcpy.s \
+			ft_strcpy.s \
 			# ft_strdup.s \
 			# ft_write.s \
 			# ft_read.s \
