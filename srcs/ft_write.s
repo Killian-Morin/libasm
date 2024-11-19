@@ -6,8 +6,7 @@ global ft_write
 ; ssize_t write(int fd, const void *buf, size_t count);
 ; rdi holds the fd, rsi the buffer and rdx the count
 ft_write:
-
-    mov rax, 1 ; Syscall for write
+    mov rax, 1 ; Syscall code for write
     syscall
 
     cmp rax, 0 ; Check if the return is negative (error)

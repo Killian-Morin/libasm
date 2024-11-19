@@ -6,7 +6,7 @@
 /*   By: kmorin <kmorin@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:05:40 by kmorin            #+#    #+#             */
-/*   Updated: 2024/11/19 15:22:55 by kmorin           ###   ########.fr       */
+/*   Updated: 2024/11/19 17:26:57 by kmorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <stdlib.h>
 
 #define RESET "\e[0m"
 #define RED "\e[0;31m"
@@ -28,7 +29,7 @@ size_t	ft_strlen(const char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcpy(char *dest, const char *src);
 ssize_t	ft_write(int fd, const void *buf, size_t count);
-// ssize_t	ft_read(int fd, void *buf, size_t count);
+ssize_t	ft_read(int fd, void *buf, size_t count);
 // char	*ft_strdup(const char *s);
 
 void strlen_test() {
@@ -388,6 +389,95 @@ void write_test() {
 
 void read_test() {
 
+	int		fd = 0;
+	char	*buf;
+	size_t	count;
+	ssize_t	res_offical, res_mine;
+
+	// Read 100 from stdin
+	count = 100;
+	printf(BLUE "Read '%ld' bytes from fd '%d'\n" RESET, count, fd);
+	fflush(NULL);
+	buf = malloc(100);
+	res_offical = read(fd, buf, count);
+	printf("\nResult from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
+	fflush(NULL);
+	buf = malloc(100);
+	res_mine = ft_read(fd, buf, count);
+	printf("\nResult from ft_read: " YELLOW "%ld buf = '%s'\n\n" RESET, res_mine, buf);
+	fflush(NULL);
+
+	// Read 10 from a file
+	fd = open("file.txt", O_CREAT | O_RDONLY, 00600);
+	count = 10;
+	printf(BLUE "Read '%ld' bytes from fd '%d'\n" RESET, count, fd);
+	fflush(NULL);
+	buf = malloc(100);
+	res_offical = read(fd, buf, count);
+	printf("\nResult from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
+	fflush(NULL);
+	fd = open("file.txt", O_CREAT | O_RDONLY, 00600); // reopen it to reset the index in the file
+	buf = malloc(100);
+	res_mine = ft_read(fd, buf, count);
+	printf("\nResult from ft_read: " YELLOW "%ld buf = '%s'\n\n" RESET, res_mine, buf);
+	fflush(NULL);
+
+	// Test the errno
+
+	// Read from a fd that is not opened (EBADF)
+	errno = 0;
+	fd = -1;
+	count = 10;
+	printf(BLUE "Read '%ld' bytes from fd '%d'\n" RESET, count, fd);
+	fflush(NULL);
+	buf = malloc(100);
+	res_offical = read(fd, buf, count);
+	printf("\nResult from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
+	fflush(NULL);
+	perror("errno after read");
+	errno = 0;
+	buf = malloc(100);
+	res_mine = ft_read(fd, buf, count);
+	printf("\nResult from ft_read: " YELLOW "%ld buf = '%s'\n" RESET, res_mine, buf);
+	fflush(NULL);
+	perror("errno after ft_read");
+
+	// Read from a fd that doesn't have the permissions to read it (EBADF)
+	errno = 0;
+	fd = open("cant_open.txt", O_CREAT, 00000);
+	count = 10;
+	printf(BLUE "Read '%ld' bytes from fd '%d'\n" RESET, count, fd);
+	fflush(NULL);
+	buf = malloc(100);
+	res_offical = read(fd, buf, count);
+	printf("\nResult from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
+	fflush(NULL);
+	perror("errno after read");
+	errno = 0;
+	buf = malloc(100);
+	res_mine = ft_read(fd, buf, count);
+	printf("\nResult from ft_read: " YELLOW "%ld buf = '%s'\n" RESET, res_mine, buf);
+	fflush(NULL);
+	perror("errno after ft_read");
+
+	// Read from stdout with an invalid buffer (EFAULT)
+	errno = 0;
+	fd = 1;
+	char	*invalid_ptr = (char *)(-1);
+	count = 42;
+	printf(BLUE "Read '%ld' bytes of an invalid buffer to fd '%d'\n" RESET, count, fd);
+	fflush(stdout);
+	buf = malloc(100);
+	res_offical = read(fd, invalid_ptr, count);
+	printf("Result from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
+	fflush(stdout);
+	perror("errno after read");
+	errno = 0;
+	buf = malloc(100);
+	res_mine = ft_read(fd, invalid_ptr, count);
+	printf("\nResult from ft_read: " YELLOW "%ld buf = '%s'\n" RESET, res_mine, buf);
+	fflush(stdout);
+	perror("errno after ft_read");
 }
 
 void strdup_test() {
@@ -412,9 +502,9 @@ int main(void) {
 
 	write_test();
 
-	// printf(MAGENTA "\n================READ================\n" RESET);
+	printf(MAGENTA "\n================READ================\n" RESET);
 
-	// read_test();
+	read_test();
 
 	// printf(MAGENTA "\n===============STRDUP===============\n" RESET);
 
