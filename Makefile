@@ -7,9 +7,9 @@ SRC_PATH = ./srcs/
 SRC_FILES = ft_strlen.s \
 			ft_strcmp.s \
 			ft_strcpy.s \
-			# ft_strdup.s \
-			# ft_write.s \
+			ft_write.s \
 			# ft_read.s \
+			# ft_strdup.s \
 
 SRC = ${addprefix ${SRC_PATH}, ${SRC_FILES}}
 
@@ -40,10 +40,11 @@ test: all
 clean:
 	@rm -rf ${OBJ_PATH}
 
-# Remove the library and the file from test.c
+# Remove the library, test executable and files
 fclean: clean
 	@rm -f ${NAME}
 	@rm -f ./test
+	@rm -f *.txt
 
 # Rebuild everything
 re: fclean all
