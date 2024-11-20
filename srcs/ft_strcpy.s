@@ -1,5 +1,5 @@
 section .text
-global ft_strcpy
+    global ft_strcpy
 
 ; char *strcpy(char *dest, const char *src);
 ; dest is in rdi and src is in rsi

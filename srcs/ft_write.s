@@ -1,7 +1,6 @@
-extern __errno_location
-
 section .text
-global ft_write
+    extern __errno_location
+    global ft_write
 
 ; ssize_t write(int fd, const void *buf, size_t count);
 ; rdi holds the fd, rsi the buffer and rdx the count

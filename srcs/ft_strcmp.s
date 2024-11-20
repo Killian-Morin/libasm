@@ -1,5 +1,5 @@
 section .text
-global ft_strcmp
+    global ft_strcmp
 
 ; int strcmp(const char *s1, const char *s2);
 ; s1 is in rdi, s2 is in rsi

@@ -9,7 +9,7 @@ SRC_FILES = ft_strlen.s \
 			ft_strcpy.s \
 			ft_write.s \
 			ft_read.s \
-			# ft_strdup.s \
+			ft_strdup.s \
 
 SRC = ${addprefix ${SRC_PATH}, ${SRC_FILES}}
 
@@ -35,6 +35,7 @@ ${NAME}:
 # Compile test.c and link it with the library
 test: all
 	@gcc -Wall -Werror -Wextra -o test test.c -L. -lasm
+	@echo "Linked test file with the library"
 
 # Clean ./objs that holds object files
 clean:

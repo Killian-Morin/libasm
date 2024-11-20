@@ -1,5 +1,5 @@
 section .text
-global ft_strlen
+    global ft_strlen
 
 ; size_t strlen(const char *s);
 ; s is stored in rdi

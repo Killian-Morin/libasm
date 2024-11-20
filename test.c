@@ -6,7 +6,7 @@
 /*   By: kmorin <kmorin@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:05:40 by kmorin            #+#    #+#             */
-/*   Updated: 2024/11/19 17:26:57 by kmorin           ###   ########.fr       */
+/*   Updated: 2024/11/20 13:18:33 by kmorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcpy(char *dest, const char *src);
 ssize_t	ft_write(int fd, const void *buf, size_t count);
 ssize_t	ft_read(int fd, void *buf, size_t count);
-// char	*ft_strdup(const char *s);
+char	*ft_strdup(const char *s);
 
 void strlen_test() {
 
@@ -213,9 +213,45 @@ void strcpy_test() {
 	// printf("Result from ft_strcpy: " YELLOW "%s\n\n" RESET, ret_mine);
 }
 
+void strdup_test() {
+
+	char	*s;
+	char	*res_official, *res_mine;
+
+	// Duplicate string
+	s = "Hello World";
+	printf(BLUE "Duplicate '%s'\n" RESET, s);
+	res_official = strdup(s);
+	printf("Result from strdup:    " GREEN "%s\n" RESET, res_official);
+	res_mine = ft_strdup(s);
+	printf("Result from ft_strdup: " YELLOW "%s\n\n" RESET, res_mine);
+	free(res_official);
+	free(res_mine);
+
+	// Duplicate long string
+	s = "This is a long long long long long long string. I wonder if I can duplicate it ?";
+	printf(BLUE "Duplicate '%s'\n" RESET, s);
+	res_official = strdup(s);
+	printf("Result from strdup:    " GREEN "%s\n" RESET, res_official);
+	res_mine = ft_strdup(s);
+	printf("Result from ft_strdup: " YELLOW "%s\n\n" RESET, res_mine);
+	free(res_official);
+	free(res_mine);
+
+	// Duplicate empty string
+	s = "";
+	printf(BLUE "Duplicate '%s'\n" RESET, s);
+	res_official = strdup(s);
+	printf("Result from strdup:    " GREEN "%s\n" RESET, res_official);
+	res_mine = ft_strdup(s);
+	printf("Result from ft_strdup: " YELLOW "%s\n\n" RESET, res_mine);
+	free(res_official);
+	free(res_mine);
+}
+
 void write_test() {
 
-	int		fd = 1;
+	int		fd = 1, fd_file;
 	char	*buf;
 	size_t	count;
 	ssize_t	res_offical, res_mine;
@@ -277,61 +313,63 @@ void write_test() {
 	fflush(stdout);
 
 	// Create 'file.txt' to write to a file
-	fd = open("file.txt", O_CREAT | O_WRONLY, 00600);
+	fd_file = open("file.txt", O_CREAT | O_WRONLY, 00600);
 
 	// Write to a file with the size of the string
 	buf = "Hello World\n";
 	count = 12;
-	printf(BLUE "Write '%ld' bytes of '%s' to fd '%d'\n" RESET, count, buf, fd);
+	printf(BLUE "Write '%ld' bytes of '%s' to fd '%d'\n" RESET, count, buf, fd_file);
 	fflush(stdout);
-	res_offical = write(fd, buf, count);
+	res_offical = write(fd_file, buf, count);
 	printf("Result from write:    " GREEN "%ld\n" RESET, res_offical);
 	fflush(stdout);
-	res_mine = ft_write(fd, buf, count);
+	res_mine = ft_write(fd_file, buf, count);
 	printf("Result from ft_write: " YELLOW "%ld\n\n" RESET, res_mine);
 	fflush(stdout);
 
-	write(fd, "\n\n", 2);
+	write(fd_file, "\n\n", 2);
 
 	// Write to a file with a size smaller than the string
 	buf = "Hello World";
 	count = 5;
-	printf(BLUE "Write '%ld' bytes of '%s' to fd '%d'\n" RESET, count, buf, fd);
+	printf(BLUE "Write '%ld' bytes of '%s' to fd '%d'\n" RESET, count, buf, fd_file);
 	fflush(stdout);
-	res_offical = write(fd, buf, count);
+	res_offical = write(fd_file, buf, count);
 	printf("Result from write:    " GREEN "%ld\n" RESET, res_offical);
 	fflush(stdout);
-	res_mine = ft_write(fd, buf, count);
+	res_mine = ft_write(fd_file, buf, count);
 	printf("Result from ft_write: " YELLOW "%ld\n\n" RESET, res_mine);
 	fflush(stdout);
 
-	write(fd, "\n\n", 2);
+	write(fd_file, "\n\n", 2);
 
 	// Write to a file with a size greater than the string
 	buf = "Hello World";
 	count = 20;
-	printf(BLUE "Write '%ld' bytes of '%s' to fd '%d'\n" RESET, count, buf, fd);
+	printf(BLUE "Write '%ld' bytes of '%s' to fd '%d'\n" RESET, count, buf, fd_file);
 	fflush(stdout);
-	res_offical = write(fd, buf, count);
+	res_offical = write(fd_file, buf, count);
 	printf("Result from write:    " GREEN "%ld\n" RESET, res_offical);
 	fflush(stdout);
-	res_mine = ft_write(fd, buf, count);
+	res_mine = ft_write(fd_file, buf, count);
 	printf("Result from ft_write: " YELLOW "%ld\n\n" RESET, res_mine);
 	fflush(stdout);
 
-	write(fd, "\n\n", 2);
+	write(fd_file, "\n\n", 2);
 
 	// Write to a file with an empty string
 	buf = "";
 	count = 20;
-	printf(BLUE "Write '%ld' bytes of '%s' to fd '%d'\n" RESET, count, buf, fd);
+	printf(BLUE "Write '%ld' bytes of '%s' to fd '%d'\n" RESET, count, buf, fd_file);
 	fflush(stdout);
-	res_offical = write(fd, buf, count);
+	res_offical = write(fd_file, buf, count);
 	printf("Result from write:    " GREEN "%ld\n" RESET, res_offical);
 	fflush(stdout);
-	res_mine = ft_write(fd, buf, count);
+	res_mine = ft_write(fd_file, buf, count);
 	printf("Result from ft_write: " YELLOW "%ld\n\n" RESET, res_mine);
 	fflush(stdout);
+
+	close(fd_file);
 
 	// Test the errno
 
@@ -348,33 +386,33 @@ void write_test() {
 	perror("errno after write");
 	errno = 0;
 	res_mine = ft_write(fd, buf, count);
-	printf("\nResult from ft_write: " YELLOW "%ld\n" RESET, res_mine);
+	printf("Result from ft_write: " YELLOW "%ld\n" RESET, res_mine);
 	fflush(stdout);
 	perror("errno after ft_write");
 
 	// Write to a fd that doesn't have the permissions to write on it (EBADF)
 	errno = 0;
-	fd = open("cant_open.txt", O_CREAT, 00000);
+	fd_file = open("cant_open.txt", O_CREAT, 00000);
 	buf = "Hello World";
 	count = 12;
-	printf(BLUE "Write '%ld' bytes of '%s' to fd '%d'\n" RESET, count, buf, fd);
+	printf(BLUE "\nWrite '%ld' bytes of '%s' to fd '%d'\n" RESET, count, buf, fd_file);
 	fflush(stdout);
-	res_offical = write(fd, buf, count);
+	res_offical = write(fd_file, buf, count);
 	printf("Result from write:    " GREEN "%ld\n" RESET, res_offical);
 	fflush(stdout);
 	perror("errno after write");
 	errno = 0;
-	res_mine = ft_write(fd, buf, count);
-	printf("\nResult from ft_write: " YELLOW "%ld\n" RESET, res_mine);
+	res_mine = ft_write(fd_file, buf, count);
+	printf("Result from ft_write: " YELLOW "%ld\n" RESET, res_mine);
 	fflush(stdout);
 	perror("errno after ft_write");
 
 	// Write to stdout with an invalid buffer (EFAULT)
 	errno = 0;
 	fd = 1;
-	char	*invalid_ptr = (char *)(-1);
+	char	*invalid_ptr = (char *)(-1); // Cast -1 to a char *
 	count = 42;
-	printf(BLUE "Write '%ld' bytes of an invalid buffer to fd '%d'\n" RESET, count, fd);
+	printf(BLUE "\nWrite '%ld' bytes of an invalid buffer to fd '%d'\n" RESET, count, fd);
 	fflush(stdout);
 	res_offical = write(fd, invalid_ptr, count);
 	printf("Result from write:    " GREEN "%ld\n" RESET, res_offical);
@@ -382,14 +420,14 @@ void write_test() {
 	perror("errno after write");
 	errno = 0;
 	res_mine = ft_write(fd, invalid_ptr, count);
-	printf("\nResult from ft_write: " YELLOW "%ld\n" RESET, res_mine);
+	printf("Result from ft_write: " YELLOW "%ld\n" RESET, res_mine);
 	fflush(stdout);
 	perror("errno after ft_write");
 }
 
 void read_test() {
 
-	int		fd = 0;
+	int		fd = 0, fd_file;
 	char	*buf;
 	size_t	count;
 	ssize_t	res_offical, res_mine;
@@ -398,29 +436,31 @@ void read_test() {
 	count = 100;
 	printf(BLUE "Read '%ld' bytes from fd '%d'\n" RESET, count, fd);
 	fflush(NULL);
-	buf = malloc(100);
+	buf = malloc(count);
 	res_offical = read(fd, buf, count);
-	printf("\nResult from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
+	printf("Result from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
 	fflush(NULL);
-	buf = malloc(100);
+	buf = malloc(count);
 	res_mine = ft_read(fd, buf, count);
-	printf("\nResult from ft_read: " YELLOW "%ld buf = '%s'\n\n" RESET, res_mine, buf);
+	printf("Result from ft_read: " YELLOW "%ld buf = '%s'\n\n" RESET, res_mine, buf);
 	fflush(NULL);
 
 	// Read 10 from a file
-	fd = open("file.txt", O_CREAT | O_RDONLY, 00600);
+	fd_file = open("file.txt", O_CREAT | O_RDONLY, 00600);
 	count = 10;
-	printf(BLUE "Read '%ld' bytes from fd '%d'\n" RESET, count, fd);
+	printf(BLUE "Read '%ld' bytes from fd '%d'\n" RESET, count, fd_file);
 	fflush(NULL);
-	buf = malloc(100);
-	res_offical = read(fd, buf, count);
-	printf("\nResult from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
+	buf = malloc(count);
+	res_offical = read(fd_file, buf, count);
+	printf("Result from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
 	fflush(NULL);
-	fd = open("file.txt", O_CREAT | O_RDONLY, 00600); // reopen it to reset the index in the file
-	buf = malloc(100);
-	res_mine = ft_read(fd, buf, count);
-	printf("\nResult from ft_read: " YELLOW "%ld buf = '%s'\n\n" RESET, res_mine, buf);
+	fd_file = open("file.txt", O_CREAT | O_RDONLY, 00600); // reopen it to reset the index in the file
+	buf = malloc(count);
+	res_mine = ft_read(fd_file, buf, count);
+	printf("Result from ft_read: " YELLOW "%ld buf = '%s'\n\n" RESET, res_mine, buf);
 	fflush(NULL);
+
+	close(fd_file);
 
 	// Test the errno
 
@@ -430,58 +470,54 @@ void read_test() {
 	count = 10;
 	printf(BLUE "Read '%ld' bytes from fd '%d'\n" RESET, count, fd);
 	fflush(NULL);
-	buf = malloc(100);
+	buf = malloc(count);
 	res_offical = read(fd, buf, count);
-	printf("\nResult from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
+	printf("Result from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
 	fflush(NULL);
 	perror("errno after read");
 	errno = 0;
-	buf = malloc(100);
+	buf = malloc(count);
 	res_mine = ft_read(fd, buf, count);
-	printf("\nResult from ft_read: " YELLOW "%ld buf = '%s'\n" RESET, res_mine, buf);
+	printf("Result from ft_read: " YELLOW "%ld buf = '%s'\n" RESET, res_mine, buf);
 	fflush(NULL);
 	perror("errno after ft_read");
 
 	// Read from a fd that doesn't have the permissions to read it (EBADF)
 	errno = 0;
-	fd = open("cant_open.txt", O_CREAT, 00000);
+	fd_file = open("cant_open.txt", O_CREAT, 00000);
 	count = 10;
-	printf(BLUE "Read '%ld' bytes from fd '%d'\n" RESET, count, fd);
+	printf(BLUE "\nRead '%ld' bytes from fd '%d'\n" RESET, count, fd_file);
 	fflush(NULL);
-	buf = malloc(100);
-	res_offical = read(fd, buf, count);
-	printf("\nResult from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
+	buf = malloc(count);
+	res_offical = read(fd_file, buf, count);
+	printf("Result from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
 	fflush(NULL);
 	perror("errno after read");
 	errno = 0;
-	buf = malloc(100);
-	res_mine = ft_read(fd, buf, count);
-	printf("\nResult from ft_read: " YELLOW "%ld buf = '%s'\n" RESET, res_mine, buf);
+	buf = malloc(count);
+	res_mine = ft_read(fd_file, buf, count);
+	printf("Result from ft_read: " YELLOW "%ld buf = '%s'\n" RESET, res_mine, buf);
 	fflush(NULL);
 	perror("errno after ft_read");
+
+	free(buf);
 
 	// Read from stdout with an invalid buffer (EFAULT)
 	errno = 0;
 	fd = 1;
-	char	*invalid_ptr = (char *)(-1);
+	char	*invalid_ptr = (char *)(-1); // Cast -1 to a char *
 	count = 42;
-	printf(BLUE "Read '%ld' bytes of an invalid buffer to fd '%d'\n" RESET, count, fd);
+	printf(BLUE "\nRead '%ld' bytes of an invalid buffer to fd '%d'\n" RESET, count, fd);
 	fflush(stdout);
-	buf = malloc(100);
 	res_offical = read(fd, invalid_ptr, count);
-	printf("Result from read:    " GREEN "%ld buf = '%s'\n" RESET, res_offical, buf);
+	printf("Result from read:    " GREEN "%ld\n" RESET, res_offical);
 	fflush(stdout);
 	perror("errno after read");
 	errno = 0;
-	buf = malloc(100);
 	res_mine = ft_read(fd, invalid_ptr, count);
-	printf("\nResult from ft_read: " YELLOW "%ld buf = '%s'\n" RESET, res_mine, buf);
+	printf("Result from ft_read: " YELLOW "%ld\n" RESET, res_mine);
 	fflush(stdout);
 	perror("errno after ft_read");
-}
-
-void strdup_test() {
-
 }
 
 int main(void) {
@@ -498,6 +534,10 @@ int main(void) {
 
 	strcpy_test();
 
+	printf(MAGENTA "\n===============STRDUP===============\n" RESET);
+
+	strdup_test();
+
 	printf(MAGENTA "\n===============WRITE================\n" RESET);
 
 	write_test();
@@ -506,11 +546,7 @@ int main(void) {
 
 	read_test();
 
-	// printf(MAGENTA "\n===============STRDUP===============\n" RESET);
-
-	// strdup_test();
-
-	// printf(MAGENTA "\n===============THE END==============\n" RESET);
+	printf(MAGENTA "\n===============THE END==============\n" RESET);
 
 	return 0;
 }
