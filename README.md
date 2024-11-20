@@ -122,3 +122,5 @@ https://www.redhat.com/en/blog/position-independent-executables-pie
 ## sources
 
 https://cs.lmu.edu/~ray/notes/nasmtutorial/
+
+https://www.felixcloutier.com/x86/
