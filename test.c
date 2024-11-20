@@ -6,7 +6,7 @@
 /*   By: kmorin <kmorin@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:05:40 by kmorin            #+#    #+#             */
-/*   Updated: 2024/11/20 13:18:33 by kmorin           ###   ########.fr       */
+/*   Updated: 2024/11/20 15:15:06 by kmorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -502,9 +502,9 @@ void read_test() {
 
 	free(buf);
 
-	// Read from stdout with an invalid buffer (EFAULT)
+	// Read from stdin with an invalid buffer (EFAULT)
 	errno = 0;
-	fd = 1;
+	fd = 0;
 	char	*invalid_ptr = (char *)(-1); // Cast -1 to a char *
 	count = 42;
 	printf(BLUE "\nRead '%ld' bytes of an invalid buffer to fd '%d'\n" RESET, count, fd);
