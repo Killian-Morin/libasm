@@ -15,7 +15,7 @@ ft_strdup:
 
     inc rax ; Add 1 for null terminator
     mov rdi, rax ; Set as argument for malloc
-    call malloc wrt ..plt ; Allocate memory
+    call malloc WRT ..plt ; Allocate memory
 
     test rax, rax ; Check if malloc succeeded
     jz errno ; If malloc failed, return NULL and set errno
