@@ -27,7 +27,6 @@ ft_strdup:
     ret ; Return, duplicated string is in rax
 
 errno:
-    xor rax, rax ; Return NULL
     mov rdi, ENOMEM ; Move error code to rdi (first argument for __errno_location)
     call __errno_location WRT ..plt ; Call __errno_location to get errno address
     mov [rax], rdi ; Store error code in errno
