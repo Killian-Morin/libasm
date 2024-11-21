@@ -50,4 +50,4 @@ fclean: clean
 # Rebuild everything
 re: fclean all
 
-.PHONE: all clean fclean re
+.PHONE: all clean fclean re test

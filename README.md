@@ -75,7 +75,19 @@ The reference to use: `man 2 write`
 
 The reference to use: `man 2 read`
 
-## extern / errno_location
+## divers
+
+The compilation of the `.s` files are done with the following command: `nasm -f elf64`.
+
+`nasm` is the Netwide Assembler.
+
+The `-f format` flag specifies the format of the output file.
+
+`elf64` corresponds to `ELF64 (x86-64) (Linux, most Unix variants)`.
+
+`ar t libasm.a` or any library → Display a *table* listing the contents of the *archive*.
+
+### extern / errno_location
 
 `call __errno_location WRT ..plt`:
 
@@ -103,7 +115,7 @@ The reference to use: `man 2 read`
 
 In summary, `call __errno_location WRT ..plt` is a way to call the `__errno_location` function from assembly code in a manner that's compatible with shared libraries and position-independent code. It uses the PLT mechanism to allow the dynamic linker to resolve the actual address of the function at runtime.
 
-## `-no-pie`
+### `-no-pie`
 
 The `-no-pie` flag instructs GCC to generate a non-position-independent executable. Position Independent Executables (PIE) are a security feature that allows the entire program to be loaded at a random memory address each time it's run, making certain types of attacks more difficult. However, PIE can have a small performance cost.
 
@@ -124,3 +136,5 @@ https://www.redhat.com/en/blog/position-independent-executables-pie
 https://cs.lmu.edu/~ray/notes/nasmtutorial/
 
 https://www.felixcloutier.com/x86/
+
+https://linux.die.net/man/1/nasm
